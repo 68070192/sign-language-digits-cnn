@@ -218,3 +218,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Data and large files
+data/
+*.zip
+*.tar.gz
+
+# Model weights and checkpoints
+*.pth
+*.pt
+*.onnx
+
+# Jupyter / Colab
+.ipynb_checkpoints/
+
+# Virtual Environment & OS files
+venv/
+env/
+.DS_Store
