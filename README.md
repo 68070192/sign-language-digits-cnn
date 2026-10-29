@@ -142,7 +142,7 @@ sign-language-digits-cnn/
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/68070192/sign-language-digits-cnn.git](https://github.com/68070192/sign-language-digits-cnn.git)
+git clone https://github.com/68070192/sign-language-digits-cnn.git
 cd sign-language-digits-cnn
 ```
 
