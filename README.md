@@ -79,9 +79,9 @@ Input Image [3, 64, 64]
 
 | Model | Test Accuracy | Test Macro-F1 | Parameters |
 | :--- | :---: | :---: | :---: |
-| Baseline (Linear) | 70.00% | 0.7046 | 122.9K |
-| Custom CNN (Proposed) | 93.55% | 0.9348 | 94.1K |
-| Net Difference | +23.55% | +0.2302 | -28.8K |
+| Baseline (Linear) | 70.00% | 0.7046 | 122.9K (122,890) |
+| Custom CNN (Proposed) | 93.55% | 0.9358 | 95.0K (94,986) |
+| Net Difference | +23.55% | +0.2312 | -27.9K (-27,904) |
 
 > Observation: Despite having fewer trainable parameters than the dense baseline, the Custom CNN outperforms it by over 23%, verifying the necessity of translation invariance and spatial locality in computer vision tasks.
 
@@ -112,11 +112,14 @@ Understanding model failure modes is crucial for identifying structural constrai
 
 ### Key Failure Modes
 
-1. **Class 6 & 7 Misclassified as 3:**
-   * **Technical Cause:** In the dataset sign notation, digits 6 and 7 involve bending one or two fingers while leaving three fingers upright. In standard 2D projection with ambient illumination, the folded fingers cast shadows across the palm, leading the convolutional filters to primarily activate on the three visible digits, erroneously predicting class 3 with low confidence (<50%).
+1. **Primary Confusion Pair (Class 3 Predicted as Class 8):**
+   * Based on the test set Confusion Matrix, the most frequent misclassification occurs where true Class 3 is predicted as Class 8 (4 samples), while other errors—such as Class 6 and Class 7 predicted as Class 3 shown in the sampled failure figure above—occur only once each (1 sample).
 
 2. **Ambiguity Under Low Confidence:**
-   * Misclassifications are accompanied by relatively flat softmax probability distributions (low confidence scores), demonstrating that the model captures epistemic uncertainty rather than making high-confidence false assumptions.
+   * Sampled misclassifications exhibit relatively low softmax probability scores (<50% confidence), indicating that errors primarily occur on visually ambiguous hand postures rather than high-confidence false predictions.
+
+3. **Dataset Index Mapping Note:**
+   * In the original dataset array mapping (`Y.npy`), certain class indices do not strictly align with the visual digit gesture (e.g., index 2 contains circular thumb-index gestures). While this index permutation does not affect multiclass classification metrics (Accuracy/Macro-F1), explicit label remapping is recommended for downstream real-time deployment.
 
 ---
 
